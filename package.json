@@ -1,0 +1,23 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "description": "todo-api",
+  "main": "server.js",
+  "repository": "git@github.com:ArtyomZayarny/todo-api.git",
+  "author": "ArtemZayarny <artyom.zayarny@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "prod": "NODE_ENV=production nodemon server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.53.0",
+    "prettier": "^3.0.3"
+  }
+}
