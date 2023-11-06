@@ -1,26 +1,26 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-process.on("unhandledRejection", (err) => {
-  console.log("unhandledRejection", err.name, err.message);
-  console.log("unhandledRejection 🎆");
-
-  process.exit(1);
-});
-process.on("uncaughtException", (err) => {
-  console.log("uncaughtException", err.name, err.message);
-  console.log("uncaughtException 🎆");
+process.on('unhandledRejection', (err) => {
+  console.log('unhandledRejection', err.name, err.message);
+  console.log('unhandledRejection 🎆');
 
   process.exit(1);
 });
+process.on('uncaughtException', (err) => {
+  console.log('uncaughtException', err.name, err.message);
+  console.log('uncaughtException 🎆');
 
-dotenv.config({ path: ".env" });
+  process.exit(1);
+});
 
-const app = require("./app");
+dotenv.config({ path: '.env' });
+
+const app = require('./app');
 
 const DB = process.env.MONGO_DB_CONNECT.replace(
-  "<password>",
-  process.env.MONGO_DB_PASSWORD
+  '<password>',
+  process.env.MONGO_DB_PASSWORD,
 );
 
 /* How to hanle Unhandled promise rejection
@@ -28,7 +28,7 @@ for example wrong connection to DB
 */
 
 mongoose.connect(DB).then(() => {
-  console.log("DB connection successful!");
+  console.log('DB connection successful!');
 });
 
 const port = process.env.PORT || 3000;

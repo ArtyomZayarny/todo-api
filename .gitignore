@@ -1,3 +1,7 @@
 node_modules
 yarn.lock
 .env
+.DS_Store
+.eslintrc.json
+.prettierrc
+.yarn-error.log
