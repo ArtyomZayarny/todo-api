@@ -1,35 +1,38 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-process.on('unhandledRejection', (err: Error) => {
-  console.log('unhandledRejection', err?.name, err?.message);
-  console.log('unhandledRejection 🎆');
-
-  process.exit(1);
-});
-process.on('uncaughtException', (err: Error) => {
-  console.log('uncaughtException', err.name, err.message);
-  console.log('uncaughtException 🎆');
-
-  process.exit(1);
-});
-
-dotenv.config({ path: '.env' });
-
-import { Error } from 'mongoose';
+import config from './config/config.ts';
 import { app } from './app.ts';
 
-const DB = process?.env?.MONGO_DB_CONNECT?.replace(
-  '<password>',
-  process?.env?.MONGO_DB_PASSWORD || '',
-);
+let server: any;
 
-mongoose.connect(DB!).then(() => {
+mongoose.connect(config.mongoose.url!).then(() => {
   console.log('DB connection successful!');
+  server = app.listen(config.port, () => {
+    console.log(`Example app listening on port ${config.port}`);
+  });
 });
 
-const port = process.env.PORT || 3000;
+const exitHandler = () => {
+  if (server) {
+    server.close(() => {
+      console.log('Server closed');
+      process.exit(1);
+    });
+  } else {
+    process.exit(1);
+  }
+};
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+const unexpectedErrorHandler = (error: string) => {
+  console.log(error);
+  exitHandler();
+};
+
+process.on('uncaughtException', unexpectedErrorHandler);
+process.on('unhandledRejection', unexpectedErrorHandler);
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received');
+  if (server) {
+    server.close();
+  }
 });
