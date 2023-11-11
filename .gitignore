@@ -4,4 +4,4 @@ yarn.lock
 .DS_Store
 .eslintrc.json
 .prettierrc
-
+yarn-error.log
