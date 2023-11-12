@@ -1,10 +1,12 @@
-import express, { Express } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
 // @ts-ignore
 import xss from 'xss-clean';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
 import morgan from 'morgan';
 import { todoRouter } from './routes/todoRoutes.ts';
+import { errorHandler } from './modules/errors/errorHandler.ts';
+import { AppError } from './modules/errors/AppError.ts';
 
 const app: Express = express();
 
@@ -25,5 +27,11 @@ app.use(ExpressMongoSanitize());
 
 // Mountaining routing
 app.use('/api/v1/todos', todoRouter);
+
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
+
+app.use(errorHandler);
 
 export { app };

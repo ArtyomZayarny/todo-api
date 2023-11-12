@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
-    "prod": "NODE_ENV=production nodemon server.js",
+    "prod": "NODE_ENV=production nodemon ./src/index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "tsc"
   },
