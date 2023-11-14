@@ -6,6 +6,7 @@ import ExpressMongoSanitize from 'express-mongo-sanitize';
 import morgan from 'morgan';
 import { todoRouter } from './modules/todo/todo.route.ts';
 import userRouter from './modules/user/user.route.ts';
+import authRouter from './modules/auth/auth.route.ts';
 import { errorHandler } from './modules/errors/errorHandler.ts';
 import { AppError } from './modules/errors/AppError.ts';
 
@@ -29,6 +30,7 @@ app.use(ExpressMongoSanitize());
 // mountain's routing
 app.use('/api/v1/todos', todoRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/auth', authRouter);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
