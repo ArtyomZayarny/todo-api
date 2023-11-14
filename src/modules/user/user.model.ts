@@ -1,7 +1,15 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 
-const userSchema = new mongoose.Schema({
+interface IUser {
+  name: string;
+  email: string;
+  photo: string;
+  password: string;
+  role: string;
+}
+
+const userSchema = new mongoose.Schema<IUser>({
   name: {
     type: String,
     required: true,
@@ -35,4 +43,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.model<IUser>('User', userSchema);

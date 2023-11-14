@@ -1,6 +1,12 @@
 import mongoose from 'mongoose';
 
-const todoSchema = new mongoose.Schema({
+interface ITodo {
+  title: string;
+  description: string;
+  image: string;
+}
+
+const todoSchema = new mongoose.Schema<ITodo>({
   title: {
     type: String,
     unique: true,
@@ -17,4 +23,4 @@ const todoSchema = new mongoose.Schema({
   },
 });
 
-export const Todo = mongoose.model('Todo', todoSchema);
+export const Todo = mongoose.model<ITodo>('Todo', todoSchema);
