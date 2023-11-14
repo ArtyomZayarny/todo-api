@@ -6,7 +6,6 @@ export const getAllTodos = catchAsync(async (req: Request, res: Response) => {
   const todos = await Todo.find();
 
   res.status(200).json({
-    status: 'success',
     data: {
       todos,
     },
@@ -17,7 +16,6 @@ export const createTodo = catchAsync(async (req: Request, res: Response) => {
   const todo = await Todo.create(req.body);
 
   res.status(201).json({
-    status: 'success',
     data: { todo },
   });
 });
@@ -27,7 +25,6 @@ export const getTodo = catchAsync(async (req: Request, res: Response) => {
   const todo = await Todo.findById(id);
 
   res.status(200).json({
-    status: 'success',
     data: {
       todo,
     },
@@ -39,7 +36,6 @@ export const deleteTodo = catchAsync(async (req: Request, res: Response) => {
   await Todo.findByIdAndDelete(id);
 
   res.status(204).json({
-    status: 'success',
     data: null,
   });
 });
@@ -53,7 +49,6 @@ export const updateTodo = catchAsync(async (req: Request, res: Response) => {
   });
 
   res.status(200).json({
-    status: 'success',
     data: { todo },
   });
 });

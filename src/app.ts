@@ -4,8 +4,8 @@ import helmet from 'helmet';
 import xss from 'xss-clean';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
 import morgan from 'morgan';
-import { todoRouter } from './routes/todoRoutes.ts';
-import userRouter from './routes/user.route.ts';
+import { todoRouter } from './modules/todo/todo.route.ts';
+import userRouter from './modules/user/user.route.ts';
 import { errorHandler } from './modules/errors/errorHandler.ts';
 import { AppError } from './modules/errors/AppError.ts';
 
