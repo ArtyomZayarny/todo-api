@@ -1,15 +1,9 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import validator from 'validator';
+import { IUserDoc } from './user.interfaces.ts';
 
-interface IUser {
-  name: string;
-  email: string;
-  photo: string;
-  password: string;
-  role: string;
-}
-
-const userSchema = new mongoose.Schema<IUser>({
+const userSchema = new mongoose.Schema<IUserDoc>({
   name: {
     type: String,
     required: true,
@@ -44,4 +38,19 @@ const userSchema = new mongoose.Schema<IUser>({
   },
 });
 
-export const User = mongoose.model<IUser>('User', userSchema);
+userSchema.pre('save', async function (next) {
+  const user = this;
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password!, 8);
+  }
+  next();
+});
+userSchema.method(
+  'isPasswordMatch',
+  async function (password: string): Promise<boolean> {
+    const user = this;
+    return bcrypt.compare(password, user.password!);
+  },
+);
+
+export const User = mongoose.model<IUserDoc>('User', userSchema);
