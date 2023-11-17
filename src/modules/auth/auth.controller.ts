@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { catchAsync } from '../../utils/catchAsync.ts';
 import * as userService from '../user/user.service.ts';
 import httpStatus from 'http-status';
-import { tokenService } from '../token/index.ts';
+import config from '../../config/config.ts';
+import jwt from 'jsonwebtoken';
 import * as authService from './auth.service.ts';
 import { AppError } from '../errors/AppError.ts';
 
@@ -10,8 +11,8 @@ export const register = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     //register user
     const user = await userService.createUser(req.body);
-    //generate token
-    const token = await tokenService.generateToken(user);
+
+    const token = signToken(user._id);
     //send user to client
     res.status(httpStatus.CREATED).send({ user, token });
   },
@@ -29,7 +30,13 @@ export const login = catchAsync(
       password,
     );
 
-    const token = await tokenService.generateToken(user);
+    const token = signToken(user._id);
     res.status(httpStatus.CREATED).send({ user, token });
   },
 );
+
+const signToken = (id: string) => {
+  return jwt.sign({ id }, config.jwt.secret!, {
+    expiresIn: config.jwt.expiresIn,
+  });
+};
