@@ -21,4 +21,8 @@ export class UserService {
     user.password = undefined;
     return user;
   }
+
+  public async getUserByEmail(email: string) {
+    return await User.findOne({ email }).select('+password');
+  }
 }

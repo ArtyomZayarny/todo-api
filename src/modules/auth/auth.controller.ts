@@ -1,42 +1,45 @@
+import { inject } from 'inversify';
+import TYPES from '../../constant/types.ts';
+import { controller, httpPost } from 'inversify-express-utils';
+import { UserService } from '../user/user.service.ts';
 import { NextFunction, Request, Response } from 'express';
-import { catchAsync } from '../../utils/catchAsync.ts';
-import * as userService from '../user/user.service.ts';
 import httpStatus from 'http-status';
-import config from '../../config/config.ts';
-import jwt from 'jsonwebtoken';
-import * as authService from './auth.service.ts';
+import { signToken } from '../../utils/signToken.ts';
 import { AppError } from '../errors/AppError.ts';
+import { AuthService } from './auth.service.ts';
 
-export const register = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    //register user
-    const user = await userService.createUser(req.body);
+@controller('/api/v1/auth')
+export class AuthController {
+  constructor(
+    @inject(TYPES.AuthService) private authService: AuthService,
+    @inject(TYPES.UserService) private userService: UserService,
+  ) {}
 
+  @httpPost('/register')
+  public async register(req: Request, res: Response) {
+    //Create user
+    const user = await this.userService.createUser(req.body);
+
+    //Generate token
     const token = signToken(user._id);
-    //send user to client
-    res.status(httpStatus.CREATED).send({ user, token });
-  },
-);
 
-export const login = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+    //send user to client
+    res.status(httpStatus.OK).send({ user, token });
+  }
+
+  @httpPost('/login')
+  public async login(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
     // 1 Check if email  and password exist
     if (!email || !password) {
       return next(new AppError('Please provide email and password !', 400));
     }
-    const user = await authService.loginUserWithEmailAndPassword(
+    const user = await this.authService.loginUserWithEmailAndPassword(
       email,
       password,
     );
 
     const token = signToken(user._id);
     res.status(httpStatus.OK).send({ user, token });
-  },
-);
-
-const signToken = (id: string) => {
-  return jwt.sign({ id }, config.jwt.secret!, {
-    expiresIn: config.jwt.expiresIn,
-  });
-};
+  }
+}
