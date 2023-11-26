@@ -11,21 +11,15 @@ import mongoose from 'mongoose';
 import config from './config/config.ts';
 import 'reflect-metadata';
 import { InversifyExpressServer } from 'inversify-express-utils';
-import { Container } from 'inversify';
-import { UserService } from './modules/user/user.service.ts';
 import './modules/user/user.controller.ts';
-import TYPES from './constant/types.ts';
+import { APIContainer } from './inversify.config.ts';
 
 let server: any;
 
 mongoose.connect(config.mongoose.url!).then(() => {
   console.log('DB connection successful!');
 
-  const container = new Container();
-
-  container.bind<UserService>(TYPES.UserService).to(UserService);
-
-  server = new InversifyExpressServer(container);
+  server = new InversifyExpressServer(APIContainer);
   server.setConfig((app: any) => {
     app.use(express.json());
     app.use(helmet());
