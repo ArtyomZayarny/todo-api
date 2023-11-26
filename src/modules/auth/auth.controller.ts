@@ -31,7 +31,7 @@ export const login = catchAsync(
     );
 
     const token = signToken(user._id);
-    res.status(httpStatus.CREATED).send({ user, token });
+    res.status(httpStatus.OK).send({ user, token });
   },
 );
 
