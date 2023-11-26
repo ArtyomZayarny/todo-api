@@ -12,6 +12,7 @@ import config from './config/config.ts';
 import 'reflect-metadata';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import './modules/user/user.controller.ts';
+import './modules/todo/todo.controller.ts';
 import { APIContainer } from './inversify.config.ts';
 
 let server: any;

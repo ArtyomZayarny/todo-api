@@ -1,54 +1,44 @@
-import { Request, Response } from 'express';
-import { Todo } from './todo.model.ts';
-import { catchAsync } from '../../utils/catchAsync.ts';
+import {
+  controller,
+  httpDelete,
+  httpGet,
+  httpPatch,
+  httpPost,
+} from 'inversify-express-utils';
+import { inject } from 'inversify';
+import TYPES from '../../constant/types.ts';
+import { TodoService } from './todo.service.ts';
+import { Request } from 'express';
 
-export const getAllTodos = catchAsync(async (req: Request, res: Response) => {
-  const todos = await Todo.find();
+@controller('/api/v1/todos')
+export class TodoController {
+  constructor(@inject(TYPES.TodoService) private todoService: TodoService) {}
 
-  res.status(200).json({
-    data: {
-      todos,
-    },
-  });
-});
+  @httpGet('/')
+  public getAllTodos() {
+    return this.todoService.find();
+  }
 
-export const createTodo = catchAsync(async (req: Request, res: Response) => {
-  const todo = await Todo.create(req.body);
+  @httpPost('/')
+  public createTodo(req: Request) {
+    return this.todoService.create(req.body);
+  }
 
-  res.status(201).json({
-    data: { todo },
-  });
-});
+  @httpGet('/:id')
+  public getTodo(req: Request) {
+    const { id } = req.params;
+    return this.todoService.getOne(id);
+  }
 
-export const getTodo = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const todo = await Todo.findById(id);
+  @httpDelete('/:id')
+  public deleteTodo(req: Request) {
+    const { id } = req.params;
+    return this.todoService.delete(id);
+  }
 
-  res.status(200).json({
-    data: {
-      todo,
-    },
-  });
-});
-
-export const deleteTodo = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  await Todo.findByIdAndDelete(id);
-
-  res.status(204).json({
-    data: null,
-  });
-});
-
-export const updateTodo = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  const todo = await Todo.findByIdAndUpdate(id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-
-  res.status(200).json({
-    data: { todo },
-  });
-});
+  @httpPatch('/:id')
+  public updateTodo(req: Request) {
+    const { id } = req.params;
+    return this.todoService.update(id, req.body);
+  }
+}

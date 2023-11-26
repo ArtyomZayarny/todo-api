@@ -1,10 +1,5 @@
 import mongoose from 'mongoose';
-
-interface ITodo {
-  title: string;
-  description: string;
-  image: string;
-}
+import { ITodo } from './todo.interfaces.ts';
 
 const todoSchema = new mongoose.Schema<ITodo>({
   title: {
