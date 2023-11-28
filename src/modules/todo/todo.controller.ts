@@ -9,8 +9,13 @@ import { inject } from 'inversify';
 import TYPES from '../../constant/types.ts';
 import { TodoService } from './todo.service.ts';
 import { Request } from 'express';
+import { APIContainer } from '../../inversify.config.ts';
+import * as express from 'express';
 
-@controller('/api/v1/todos')
+@controller(
+  '/api/v1/todos',
+  APIContainer.get<express.RequestHandler>('AuthMiddleware'),
+)
 export class TodoController {
   constructor(@inject(TYPES.TodoService) private todoService: TodoService) {}
 
