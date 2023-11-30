@@ -1,11 +1,10 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import helmet from 'helmet';
 // @ts-ignore
 import xss from 'xss-clean';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
 import morgan from 'morgan';
 import { errorHandler } from './modules/errors/errorHandler.ts';
-import { AppError } from './modules/errors/AppError.ts';
 
 import mongoose from 'mongoose';
 import config from './config/config.ts';
