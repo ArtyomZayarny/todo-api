@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { ITodo } from './todo.interfaces.ts';
+import { ITodo, TodoStatus } from './todo.interfaces.ts';
 
 const todoSchema = new mongoose.Schema<ITodo>({
   title: {
@@ -15,6 +15,12 @@ const todoSchema = new mongoose.Schema<ITodo>({
   },
   image: {
     type: String,
+    default: 'default.jpeg',
+  },
+  status: {
+    type: String,
+    enum: [TodoStatus.Done, TodoStatus.InProgress, TodoStatus.Todo],
+    default: TodoStatus.Todo,
   },
 });
 
