@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import validator from 'validator';
-import { IUserDoc } from './user.interfaces.ts';
+import { IUser, IUserDoc } from './user.interfaces.ts';
+import config from '../../config/config.ts';
+import { sendVerificationEmail } from '../../utils/email.ts';
 
 const userSchema = new mongoose.Schema<IUserDoc>({
   name: {
@@ -35,6 +38,10 @@ const userSchema = new mongoose.Schema<IUserDoc>({
     type: String,
     enum: ['user', 'admin'],
     default: 'user',
+  },
+  isEmailConfirmed: {
+    type: Boolean,
+    default: false,
   },
 });
 

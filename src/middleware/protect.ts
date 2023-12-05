@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../modules/errors/AppError.ts';
-import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
 import config from '../config/config.ts';
 import { User } from '../modules/user/user.model.ts';
 
-interface JwtPayload {
+export interface JwtPayload {
   id: string;
 }
 
