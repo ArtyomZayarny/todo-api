@@ -8,7 +8,7 @@ import { errorHandler } from './modules/errors/errorHandler.ts';
 
 import mongoose from 'mongoose';
 import config from './config/config.ts';
-import 'reflect-metadata';
+import 'reflect-metadata'; // eslint-disable-line
 import { InversifyExpressServer } from 'inversify-express-utils';
 import './modules/user/user.controller.ts';
 import './modules/todo/todo.controller.ts';

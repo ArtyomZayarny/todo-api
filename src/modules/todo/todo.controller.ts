@@ -11,8 +11,6 @@ import { TodoService } from './todo.service.ts';
 import { Request } from 'express';
 import { APIContainer } from '../../inversify.config.ts';
 import * as express from 'express';
-import { AppError } from '../errors/AppError.ts';
-import httpStatus from 'http-status';
 
 @controller(
   '/api/v1/todos',
@@ -32,11 +30,7 @@ export class TodoController {
   }
 
   @httpGet('/:id')
-  public async getTodo(
-    req: Request,
-    res: express.Response,
-    next: express.NextFunction,
-  ) {
+  public async getTodo(req: Request, res: express.Response) {
     const { id } = req.params;
     const doc = await this.todoService.getOne(id);
     if (!doc) {
