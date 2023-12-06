@@ -10,6 +10,7 @@
     "dev": "nodemon ./src/index.ts",
     "prod": "NODE_ENV=production nodemon ./src/index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "postinstall": "husky install",
     "build": "tsc"
   },
   "dependencies": {
@@ -47,6 +48,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "husky": "^8.0.3",
     "prettier": "^3.0.3",
     "reflect-metadata": "^0.1.13"
   }

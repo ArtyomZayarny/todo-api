@@ -30,6 +30,7 @@ export class AuthService {
         token,
         config.jwt.secret!,
       )) as JwtPayload;
+      //test
       // Check if user still exist
       const user = await this.userService.getUserById(decoded.id);
       if (user) {
