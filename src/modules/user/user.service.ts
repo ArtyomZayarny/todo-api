@@ -2,13 +2,6 @@ import { injectable } from 'inversify';
 import { User } from './user.model.ts';
 import { IUser } from './user.interfaces.ts';
 
-// export const getUserByEmail = async (
-//   email: string,
-// ): Promise<IUserDoc | null> => {
-//   const user = await User.findOne({ email }).select('+password');
-//   return user;
-// };
-
 @injectable()
 export class UserService {
   public async getAllUsers() {
@@ -24,5 +17,9 @@ export class UserService {
 
   public async getUserByEmail(email: string) {
     return await User.findOne({ email }).select('+password');
+  }
+
+  public async getUserById(id: string) {
+    return await User.findById(id);
   }
 }

@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema<IUserDoc>({
     enum: ['user', 'admin'],
     default: 'user',
   },
+  isEmailConfirmed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.pre('save', async function (next) {

@@ -18,6 +18,18 @@ const config = {
     secret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRES_IN,
   },
+  email: {
+    smtp: {
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    },
+    from: process.env.EMAIL_FROM,
+  },
+  clientUrl: process.env.CLIENT_URL,
 };
 
 export default config;

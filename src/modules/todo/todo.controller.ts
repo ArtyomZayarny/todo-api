@@ -30,20 +30,36 @@ export class TodoController {
   }
 
   @httpGet('/:id')
-  public getTodo(req: Request) {
+  public async getTodo(req: Request, res: express.Response) {
     const { id } = req.params;
-    return this.todoService.getOne(id);
+    const doc = await this.todoService.getOne(id);
+    if (!doc) {
+      return res.status(404).send({
+        message: `Not doc found with that id = ${id}`,
+      });
+    }
+    return doc;
   }
 
   @httpDelete('/:id')
-  public deleteTodo(req: Request) {
-    const { id } = req.params;
-    return this.todoService.delete(id);
+  public deleteTodo(req: Request, next: express.NextFunction) {
+    try {
+      const { id } = req.params;
+      return this.todoService.delete(id);
+    } catch (error) {
+      next(error);
+    }
   }
 
   @httpPatch('/:id')
-  public updateTodo(req: Request) {
+  public async updateTodo(req: Request, res: express.Response) {
     const { id } = req.params;
-    return this.todoService.update(id, req.body);
+    const doc = await this.todoService.update(id, req.body);
+    if (!doc) {
+      return res.status(404).send({
+        message: `Not doc found with that id = ${id}`,
+      });
+    }
+    return doc;
   }
 }

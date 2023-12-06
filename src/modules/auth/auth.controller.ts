@@ -1,18 +1,26 @@
 import { inject } from 'inversify';
 import TYPES from '../../constant/types.ts';
-import { controller, httpPost } from 'inversify-express-utils';
+import {
+  controller,
+  httpGet,
+  httpPost,
+  queryParam,
+  response,
+} from 'inversify-express-utils';
 import { UserService } from '../user/user.service.ts';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { signToken } from '../../utils/signToken.ts';
 import { AppError } from '../errors/AppError.ts';
 import { AuthService } from './auth.service.ts';
+import { EmailService } from '../email/email.service.ts';
 
 @controller('/api/v1/auth')
 export class AuthController {
   constructor(
     @inject(TYPES.AuthService) private authService: AuthService,
     @inject(TYPES.UserService) private userService: UserService,
+    @inject(TYPES.EmailService) private emailService: EmailService,
   ) {}
 
   @httpPost('/register')
@@ -22,6 +30,19 @@ export class AuthController {
 
     //Generate token
     const token = signToken(user._id);
+    // await user.createEmailConfirmationToken(user);
+    const emailverifyToken =
+      await this.emailService.createEmailConfirmationToken(user);
+
+    try {
+      await this.emailService.sendVerificationEmail(
+        user.email,
+        emailverifyToken,
+        user.name,
+      );
+    } catch (err) {
+      console.log(err);
+    }
 
     //send user to client
     res.status(httpStatus.OK).send({ user, token });
@@ -41,5 +62,15 @@ export class AuthController {
 
     const token = signToken(user._id);
     res.status(httpStatus.OK).send({ user, token });
+  }
+
+  @httpGet('/verify-email')
+  public async verifyEmail(
+    @response() res: Response,
+    @queryParam() params: { token: string },
+  ) {
+    const { token } = params;
+    await this.authService.verifyEmail(token);
+    res.status(httpStatus.NO_CONTENT).send();
   }
 }
