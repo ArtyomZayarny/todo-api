@@ -4,7 +4,7 @@ import { UserService } from './modules/user/user.service.ts';
 import TYPES from './constant/types.ts';
 import { TodoService } from './modules/todo/todo.service.ts';
 import { AuthService } from './modules/auth/auth.service.ts';
-import { JwtProtect } from './middleware/protect.ts';
+import { AuthGuard } from './middleware/auth.guard.ts';
 import { EmailService } from './modules/email/email.service.ts';
 
 const APIContainer = new Container();
@@ -15,7 +15,7 @@ APIContainer.bind<EmailService>(TYPES.EmailService).to(EmailService);
 
 //Auth middleware
 APIContainer.bind<express.RequestHandler>('AuthMiddleware').toConstantValue(
-  JwtProtect,
+  AuthGuard,
 );
 
 export { APIContainer };

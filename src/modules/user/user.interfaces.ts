@@ -12,6 +12,6 @@ export interface IUser {
 }
 
 export interface IUserDoc extends IUser, Document {
-  isPasswordMatch(password: string): Promise<boolean>;
-  createEmailConfirmationToken: (user: IUser) => void;
+  isPasswordMatch(password: string): Promise<boolean>; // eslint-disable-line
+  createEmailConfirmationToken: (user: IUser) => void; // eslint-disable-line
 }
