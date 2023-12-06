@@ -8,7 +8,7 @@ export interface JwtPayload {
   id: string;
 }
 
-export async function JwtProtect(
+export async function AuthGuard(
   req: Request,
   res: Response,
   next: NextFunction,
