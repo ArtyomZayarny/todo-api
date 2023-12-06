@@ -6,7 +6,6 @@ import {
   httpPost,
   queryParam,
   response,
-  request,
 } from 'inversify-express-utils';
 import { UserService } from '../user/user.service.ts';
 import { NextFunction, Request, Response } from 'express';

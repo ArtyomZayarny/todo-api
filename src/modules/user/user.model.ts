@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import validator from 'validator';
-import { IUser, IUserDoc } from './user.interfaces.ts';
-import config from '../../config/config.ts';
-import { sendVerificationEmail } from '../../utils/email.ts';
+import { IUserDoc } from './user.interfaces.ts';
 
 const userSchema = new mongoose.Schema<IUserDoc>({
   name: {
