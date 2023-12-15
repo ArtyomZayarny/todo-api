@@ -5,7 +5,7 @@ import { UserService } from '../user/user.service.ts';
 import { AppError } from '../errors/AppError.ts';
 import { inject, injectable } from 'inversify';
 import TYPES from '../../constant/types.ts';
-import { JwtPayload } from '../../middleware/protect.ts';
+import { JwtPayload } from '../../middleware/auth.guard.ts';
 
 @injectable()
 export class AuthService {

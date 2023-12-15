@@ -6,7 +6,7 @@ import { Request } from 'express';
 
 @controller('/api/v1/users')
 export class UserController {
-  constructor(@inject(TYPES.UserService) private userService: UserService) {}
+  constructor(@inject(TYPES.UserService) private userService: UserService) {} // eslint-disable-line
 
   @httpGet('/')
   public getUsers() {

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import validator from 'validator';
+import jwt from 'jsonwebtoken';
 import { IUser, IUserDoc } from './user.interfaces.ts';
 import config from '../../config/config.ts';
 
