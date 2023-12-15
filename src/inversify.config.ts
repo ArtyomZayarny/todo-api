@@ -6,6 +6,7 @@ import { TodoService } from './modules/todo/todo.service.ts';
 import { AuthService } from './modules/auth/auth.service.ts';
 import { AuthGuard } from './middleware/auth.guard.ts';
 import { EmailService } from './modules/email/email.service.ts';
+import { isAdmin } from './middleware/role.guard.ts';
 
 const APIContainer = new Container();
 APIContainer.bind<UserService>(TYPES.UserService).to(UserService);
@@ -17,5 +18,6 @@ APIContainer.bind<EmailService>(TYPES.EmailService).to(EmailService);
 APIContainer.bind<express.RequestHandler>('AuthMiddleware').toConstantValue(
   AuthGuard,
 );
+APIContainer.bind<express.RequestHandler>('isAdmin').toConstantValue(isAdmin);
 
 export { APIContainer };
