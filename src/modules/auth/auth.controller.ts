@@ -6,7 +6,6 @@ import {
   httpPost,
   queryParam,
   response,
-  request,
 } from 'inversify-express-utils';
 import { UserService } from '../user/user.service.ts';
 import { NextFunction, Request, Response } from 'express';
@@ -32,13 +31,13 @@ export class AuthController {
     //Generate token
     const token = signToken(user._id);
     // await user.createEmailConfirmationToken(user);
-    const emailverifyToken =
-      await this.emailService.createEmailConfirmationToken(user);
+    const emailConfirmationToken =
+      await user.createEmailConfirmationToken(user);
 
     try {
       await this.emailService.sendVerificationEmail(
         user.email,
-        emailverifyToken,
+        emailConfirmationToken!,
         user.name,
       );
     } catch (err) {
