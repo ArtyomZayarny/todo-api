@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import validator from 'validator';
-import { IUserDoc } from './user.interfaces.ts';
+import jwt from 'jsonwebtoken';
+import { IUser, IUserDoc } from './user.interfaces.ts';
+import config from '../../config/config.ts';
 
 const userSchema = new mongoose.Schema<IUserDoc>({
   name: {
@@ -56,5 +58,18 @@ userSchema.method(
     return bcrypt.compare(password, user.password!);
   },
 );
+
+userSchema.method('createEmailConfirmationToken', async function (user: IUser) {
+  // add verifyEmailToken expiration time (10 min)
+  const expires = Date.now() + 10 * 60 * 1000;
+  // generate token with expiration date
+  const payload = {
+    id: user._id,
+    iat: Date.now(),
+    exp: expires,
+  };
+  const verifyEmailToken = jwt.sign(payload, config.jwt.secret!);
+  return verifyEmailToken;
+});
 
 export const User = mongoose.model<IUserDoc>('User', userSchema);

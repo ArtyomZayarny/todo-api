@@ -1,7 +1,5 @@
 import { injectable } from 'inversify';
-import jwt from 'jsonwebtoken';
 import config from '../../config/config.ts';
-import { IUser } from '../user/user.interfaces.ts';
 import nodemailer, { TransportOptions } from 'nodemailer';
 
 export const transport = nodemailer.createTransport(
@@ -10,19 +8,6 @@ export const transport = nodemailer.createTransport(
 
 @injectable()
 export class EmailService {
-  public async createEmailConfirmationToken(user: IUser) {
-    // add verifyEmailToken expiration time (10 min)
-    const expires = Date.now() + 10 * 60 * 1000;
-    // generate token with expiration date
-    const payload = {
-      id: user._id,
-      iat: Date.now(),
-      exp: expires,
-    };
-    const verifyEmailToken = jwt.sign(payload, config.jwt.secret!);
-    return verifyEmailToken;
-  }
-
   public async sendEmail(
     to: string,
     subject: string,
