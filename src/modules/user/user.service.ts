@@ -22,4 +22,8 @@ export class UserService {
   public async getUserById(id: string) {
     return await User.findById(id);
   }
+
+  public async delete(id: string) {
+    return await User.findByIdAndDelete(id);
+  }
 }
