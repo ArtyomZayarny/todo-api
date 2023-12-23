@@ -22,6 +22,7 @@ mongoose.connect(config.mongoose.url!).then(() => {
 
   server = new InversifyExpressServer(APIContainer);
   server.setConfig((app: any) => {
+    app.set('view engine', 'ejs');
     app.use(express.json());
     app.use(helmet());
 
