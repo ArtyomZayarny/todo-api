@@ -22,6 +22,7 @@ const todoSchema = new mongoose.Schema<ITodo>({
     enum: [TodoStatus.Done, TodoStatus.InProgress, TodoStatus.Todo],
     default: TodoStatus.Todo,
   },
+  userId: mongoose.Types.ObjectId,
 });
 
 export const Todo = mongoose.model<ITodo>('Todo', todoSchema);

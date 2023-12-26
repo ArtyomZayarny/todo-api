@@ -28,4 +28,8 @@ export class TodoService {
       runValidators: true,
     });
   }
+
+  public async filterTodo(filter: Partial<ITodo>) {
+    return await Todo.find(filter);
+  }
 }

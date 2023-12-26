@@ -15,9 +15,16 @@ import { AuthGuard } from '../../middleware/auth.guard.ts';
 @controller('/api/v1/todos', AuthGuard())
 export class TodoController {
   constructor(@inject(TYPES.TodoService) private todoService: TodoService) {}
+  //Get user's todos
+  @httpGet('/user')
+  public async userTodos(req: Request) {
+    //@ts-ignore
+    const { _id } = req.user;
+    return await this.todoService.filterTodo({ userId: _id });
+  }
 
   @httpGet('/')
-  public async getAllTodos(res: Response, next: NextFunction) {
+  public async getAllTodos(next: NextFunction) {
     try {
       const doc = await this.todoService.find();
       return {
@@ -31,7 +38,8 @@ export class TodoController {
 
   @httpPost('/')
   public createTodo(req: Request) {
-    return this.todoService.create(req.body);
+    //@ts-ignore
+    return this.todoService.create({ ...req.body, userId: req.user._id });
   }
 
   @httpGet('/:id')
