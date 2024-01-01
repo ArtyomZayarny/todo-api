@@ -11,6 +11,7 @@ import { TodoService } from './todo.service.ts';
 import { Request, Response, NextFunction } from 'express';
 import { isAdmin } from '../../middleware/role.guard.ts';
 import { AuthGuard } from '../../middleware/auth.guard.ts';
+import { redisCheckName, redisSet } from '../../redis/index.ts';
 
 @controller('/api/v1/todos', AuthGuard())
 export class TodoController {
@@ -20,7 +21,15 @@ export class TodoController {
   public async userTodos(req: Request) {
     //@ts-ignore
     const { _id } = req.user;
-    return await this.todoService.filterTodo({ userId: _id });
+    let userTodos = await redisCheckName('userTodos');
+
+    if (!!userTodos) {
+      return JSON.parse(userTodos);
+    } else {
+      const result = await this.todoService.filterTodo({ userId: _id });
+      await redisSet('userTodos', JSON.stringify(result));
+      return result;
+    }
   }
 
   @httpGet('/')
