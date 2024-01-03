@@ -12,6 +12,7 @@ import { Request, Response, NextFunction } from 'express';
 import { isAdmin } from '../../middleware/role.guard.ts';
 import { AuthGuard } from '../../middleware/auth.guard.ts';
 import { redisCheckName, redisSet } from '../../redis/index.ts';
+import { uploadPhoto } from '../../middleware/uploadPhoto.ts';
 
 @controller('/api/v1/todos', AuthGuard())
 export class TodoController {
@@ -45,10 +46,18 @@ export class TodoController {
     }
   }
 
-  @httpPost('/')
+  @httpPost('/', uploadPhoto())
   public createTodo(req: Request) {
-    //@ts-ignore
-    return this.todoService.create({ ...req.body, userId: req.user._id });
+    if (req.file) {
+      //@ts-ignore
+      req.image = req.file.filename;
+    }
+    return this.todoService.create({
+      ...req.body,
+      //@ts-ignore
+      userId: req.user._id,
+      image: req.file?.filename,
+    });
   }
 
   @httpGet('/:id')

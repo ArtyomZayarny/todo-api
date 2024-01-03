@@ -51,6 +51,7 @@ userSchema.pre('save', async function (next) {
   }
   next();
 });
+
 userSchema.method(
   'isPasswordMatch',
   async function (password: string): Promise<boolean> {
