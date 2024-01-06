@@ -14,6 +14,7 @@ import './modules/user/user.controller.ts';
 import './modules/todo/todo.controller.ts';
 import './modules/auth/auth.controller.ts';
 import { APIContainer } from './inversify.config.ts';
+import { bucketName, s3 } from './aws/s3/index.ts';
 
 let server: any;
 
@@ -34,7 +35,19 @@ mongoose.connect(config.mongoose.url!).then(() => {
     // // Parse json request body
     app.use(express.json());
 
-    // // sanitize request data
+    // Get image from s3 by key
+    app.get('/images/:key', async (req: Request, res: any) => {
+      //@ts-ignore
+      const { key } = req.params;
+      const params: any = { Bucket: bucketName, Key: key };
+      s3.getObject(params, function (err, data) {
+        res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+        res.write(data.Body, 'binary');
+        res.end(null, 'binary');
+      });
+    });
+
+    // sanitize request data
     app.use(xss());
     app.use(ExpressMongoSanitize());
 

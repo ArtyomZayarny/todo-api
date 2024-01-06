@@ -13,6 +13,10 @@ import { isAdmin } from '../../middleware/role.guard.ts';
 import { AuthGuard } from '../../middleware/auth.guard.ts';
 import { redisCheckName, redisSet } from '../../redis/index.ts';
 import { uploadPhoto } from '../../middleware/uploadPhoto.ts';
+import { uploadToS3 } from '../../aws/s3/index.ts';
+import fs from 'fs';
+import util from 'util';
+const unlinkFile = util.promisify(fs.unlink);
 
 @controller('/api/v1/todos', AuthGuard())
 export class TodoController {
@@ -47,16 +51,19 @@ export class TodoController {
   }
 
   @httpPost('/', uploadPhoto())
-  public createTodo(req: Request) {
+  public async createTodo(req: Request) {
+    let file;
     if (req.file) {
       //@ts-ignore
-      req.image = req.file.filename;
+      file = await uploadToS3(req.file);
+      //@ts-ignore
+      await unlinkFile(req.file.path);
     }
     return this.todoService.create({
       ...req.body,
-      //@ts-ignore
+      //@ts-ignores
       userId: req.user._id,
-      image: req.file?.filename,
+      image: `/images/${file!.Key}`,
     });
   }
 

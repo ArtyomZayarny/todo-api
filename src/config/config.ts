@@ -30,6 +30,14 @@ const config = {
     from: process.env.EMAIL_FROM,
   },
   clientUrl: process.env.CLIENT_URL,
+  aws: {
+    s3: {
+      bucketName: process.env.AWS_BUCKET_NAME,
+      region: process.env.AWS_BUCKET_REGION,
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
+    },
+  },
 };
 
 export default config;
