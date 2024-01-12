@@ -15,8 +15,10 @@ import './modules/todo/todo.controller.ts';
 import './modules/auth/auth.controller.ts';
 import { APIContainer } from './inversify.config.ts';
 import { bucketName, s3 } from './aws/s3/index.ts';
+import { rabbitmqConsumer } from './rabbitmq/rabbitmq.consumer.ts';
 
 let server: any;
+rabbitmqConsumer();
 
 mongoose.connect(config.mongoose.url!).then(() => {
   console.log('DB connection successful!');
