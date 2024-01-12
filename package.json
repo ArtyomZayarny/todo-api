@@ -7,13 +7,14 @@
   "author": "ArtemZayarny <artyom.zayarny@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/index.ts",
+    "dev": "nodemon ./src/rabbitmq/rabbitmq.consumer.ts && ./src/index.ts",
     "prod": "NODE_ENV=production nodemon ./src/index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky install",
     "build": "tsc"
   },
   "dependencies": {
+    "amqplib": "^0.10.3",
     "aws-sdk": "^2.1530.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
@@ -37,6 +38,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.4",
     "@types/bcryptjs": "^2.4.6",
     "@types/ejs": "^3.1.5",
     "@types/express": "^4.17.21",

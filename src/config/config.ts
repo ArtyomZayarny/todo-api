@@ -38,6 +38,10 @@ const config = {
       secretAccessKey: process.env.AWS_SECRET_KEY,
     },
   },
+  rabbitMQ: {
+    url: process.env.RABBITMQ_URL,
+    queueName: process.env.RABBITMQ_QUEUE_NAME,
+  },
 };
 
 export default config;

@@ -14,14 +14,14 @@ import httpStatus from 'http-status';
 import { signToken } from '../../utils/signToken.ts';
 import { AppError } from '../errors/AppError.ts';
 import { AuthService } from './auth.service.ts';
-import { EmailService } from '../email/email.service.ts';
+import { RabbitMQService } from '../../rabbitmq/rabbitmq.service.ts';
 
 @controller('/api/v1/auth')
 export class AuthController {
   constructor(
     @inject(TYPES.AuthService) private authService: AuthService,
     @inject(TYPES.UserService) private userService: UserService,
-    @inject(TYPES.EmailService) private emailService: EmailService,
+    @inject(TYPES.RabbitMQService) private rabbitMQService: RabbitMQService,
   ) {}
 
   @httpPost('/register')
@@ -36,7 +36,7 @@ export class AuthController {
       await user.createEmailConfirmationToken(user);
 
     try {
-      await this.emailService.sendVerificationEmail(
+      this.rabbitMQService.sendEmailConfiramtion(
         user.email,
         emailConfirmationToken!,
         user.name,
@@ -44,7 +44,6 @@ export class AuthController {
     } catch (err) {
       console.log(err);
     }
-
     //send user to client
     res.status(httpStatus.OK).send({ user, token });
   }
