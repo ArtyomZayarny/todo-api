@@ -7,7 +7,6 @@ import {
   queryParam,
   response,
 } from 'inversify-express-utils';
-import * as path from 'path';
 import { UserService } from '../user/user.service.ts';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
@@ -71,8 +70,8 @@ export class AuthController {
   ) {
     const { token } = params;
     await this.authService.verifyEmail(token);
-    res.render(
-      path.resolve(__dirname, '../../views/email-verification-success.ejs'),
-    );
+    res.json({
+      message: 'Your email was successfully confirmed, thanks',
+    });
   }
 }
