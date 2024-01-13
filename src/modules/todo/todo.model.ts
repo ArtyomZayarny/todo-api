@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import { ITodo, TodoStatus } from './todo.interfaces.ts';
 
 const todoSchema = new mongoose.Schema<ITodo>({

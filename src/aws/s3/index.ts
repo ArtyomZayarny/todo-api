@@ -1,5 +1,6 @@
 import S3 from 'aws-sdk/clients/s3';
 import fs from 'fs';
+
 import config from '../../config/config.ts';
 
 export const { bucketName, region, accessKeyId, secretAccessKey } =

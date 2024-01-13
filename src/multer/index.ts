@@ -1,6 +1,7 @@
-import multer from 'multer';
-import { AppError } from '../modules/errors/AppError.ts';
 import { Request } from 'express';
+import multer from 'multer';
+
+import { AppError } from '../modules/errors/AppError.ts';
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {

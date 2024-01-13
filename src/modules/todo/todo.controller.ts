@@ -1,3 +1,6 @@
+import { NextFunction, Request, Response } from 'express';
+import fs from 'fs';
+import { inject } from 'inversify';
 import {
   controller,
   httpDelete,
@@ -5,17 +8,15 @@ import {
   httpPatch,
   httpPost,
 } from 'inversify-express-utils';
-import { inject } from 'inversify';
-import TYPES from '../../constant/types.ts';
-import { TodoService } from './todo.service.ts';
-import { Request, Response, NextFunction } from 'express';
-import { isAdmin } from '../../middleware/role.guard.ts';
-import { AuthGuard } from '../../middleware/auth.guard.ts';
-import { redisCheckName, redisSet } from '../../redis/index.ts';
-import { uploadPhoto } from '../../middleware/uploadPhoto.ts';
-import { uploadToS3 } from '../../aws/s3/index.ts';
-import fs from 'fs';
 import util from 'util';
+
+import { uploadToS3 } from '../../aws/s3/index.ts';
+import TYPES from '../../constant/types.ts';
+import { AuthGuard } from '../../middleware/auth.guard.ts';
+import { isAdmin } from '../../middleware/role.guard.ts';
+import { uploadPhoto } from '../../middleware/uploadPhoto.ts';
+import { redisCheckName, redisSet } from '../../redis/index.ts';
+import { TodoService } from './todo.service.ts';
 const unlinkFile = util.promisify(fs.unlink);
 
 @controller('/api/v1/todos', AuthGuard())

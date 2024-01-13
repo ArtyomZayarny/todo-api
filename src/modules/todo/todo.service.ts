@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
-import { Todo } from './todo.model.ts';
+
 import { ITodo } from './todo.interfaces.ts';
+import { Todo } from './todo.model.ts';
 
 @injectable()
 export class TodoService {

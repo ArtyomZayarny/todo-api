@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { AppError } from '../modules/errors/AppError.ts';
 import jwt from 'jsonwebtoken';
+
 import config from '../config/config.ts';
+import { AppError } from '../modules/errors/AppError.ts';
 import { User } from '../modules/user/user.model.ts';
 
 export interface JwtPayload {

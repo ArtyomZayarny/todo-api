@@ -1,8 +1,9 @@
-import { injectable } from 'inversify';
 import * as ejs from 'ejs';
-import * as path from 'path';
-import config from '../../config/config.ts';
+import { injectable } from 'inversify';
 import nodemailer, { TransportOptions } from 'nodemailer';
+import * as path from 'path';
+
+import config from '../../config/config.ts';
 
 export const transport = nodemailer.createTransport(
   config.email.smtp as TransportOptions,

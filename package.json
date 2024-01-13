@@ -7,7 +7,7 @@
   "author": "ArtemZayarny <artyom.zayarny@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/rabbitmq/rabbitmq.consumer.ts && ./src/index.ts",
+    "dev": "nodemon ./src/index.ts",
     "prod": "NODE_ENV=production nodemon ./src/index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky install",
@@ -55,6 +55,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "husky": "^8.0.0",
     "prettier": "^3.0.3",

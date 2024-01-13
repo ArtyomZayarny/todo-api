@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+
 import { Roles } from '../constant/role.enum.ts';
 import { AppError } from '../modules/errors/AppError.ts';
 

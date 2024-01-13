@@ -1,5 +1,6 @@
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 import { inject } from 'inversify';
-import TYPES from '../../constant/types.ts';
 import {
   controller,
   httpGet,
@@ -7,13 +8,14 @@ import {
   queryParam,
   response,
 } from 'inversify-express-utils';
-import { UserService } from '../user/user.service.ts';
-import { NextFunction, Request, Response } from 'express';
-import httpStatus from 'http-status';
+import * as path from 'path';
+
+import TYPES from '../../constant/types.ts';
+import { RabbitMQService } from '../../rabbitmq/rabbitmq.service.ts';
 import { signToken } from '../../utils/signToken.ts';
 import { AppError } from '../errors/AppError.ts';
+import { UserService } from '../user/user.service.ts';
 import { AuthService } from './auth.service.ts';
-import { RabbitMQService } from '../../rabbitmq/rabbitmq.service.ts';
 
 @controller('/api/v1/auth')
 export class AuthController {

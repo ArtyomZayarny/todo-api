@@ -1,12 +1,13 @@
-import { Container } from 'inversify';
 import * as express from 'express';
-import { UserService } from './modules/user/user.service.ts';
+import { Container } from 'inversify';
+
 import TYPES from './constant/types.ts';
-import { TodoService } from './modules/todo/todo.service.ts';
-import { AuthService } from './modules/auth/auth.service.ts';
 import { AuthGuard } from './middleware/auth.guard.ts';
-import { EmailService } from './modules/email/email.service.ts';
 import { isAdmin } from './middleware/role.guard.ts';
+import { AuthService } from './modules/auth/auth.service.ts';
+import { EmailService } from './modules/email/email.service.ts';
+import { TodoService } from './modules/todo/todo.service.ts';
+import { UserService } from './modules/user/user.service.ts';
 import { RabbitMQService } from './rabbitmq/rabbitmq.service.ts';
 
 const APIContainer = new Container();
