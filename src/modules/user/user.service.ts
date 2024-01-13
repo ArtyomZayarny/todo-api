@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
-import { User } from './user.model.ts';
+
 import { IUser } from './user.interfaces.ts';
+import { User } from './user.model.ts';
 
 @injectable()
 export class UserService {

@@ -1,15 +1,16 @@
+import { NextFunction, Request, Response } from 'express';
+import { inject } from 'inversify';
 import {
   controller,
   httpDelete,
   httpGet,
   httpPost,
 } from 'inversify-express-utils';
-import { UserService } from './user.service.ts';
-import { inject } from 'inversify';
+
 import TYPES from '../../constant/types.ts';
-import { NextFunction, Request, Response } from 'express';
-import { isAdmin } from '../../middleware/role.guard.ts';
 import { AuthGuard } from '../../middleware/auth.guard.ts';
+import { isAdmin } from '../../middleware/role.guard.ts';
+import { UserService } from './user.service.ts';
 
 @controller('/api/v1/users')
 export class UserController {

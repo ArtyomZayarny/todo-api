@@ -1,11 +1,12 @@
 import httpStatus from 'http-status';
-import config from '../../config/config.ts';
-import jwt from 'jsonwebtoken';
-import { UserService } from '../user/user.service.ts';
-import { AppError } from '../errors/AppError.ts';
 import { inject, injectable } from 'inversify';
+import jwt from 'jsonwebtoken';
+
+import config from '../../config/config.ts';
 import TYPES from '../../constant/types.ts';
 import { JwtPayload } from '../../middleware/auth.guard.ts';
+import { AppError } from '../errors/AppError.ts';
+import { UserService } from '../user/user.service.ts';
 
 @injectable()
 export class AuthService {

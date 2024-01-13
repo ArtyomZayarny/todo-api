@@ -1,6 +1,7 @@
 import * as amqp from 'amqplib';
-import { EmailService } from '../modules/email/email.service.ts';
+
 import config from '../config/config.ts';
+import { EmailService } from '../modules/email/email.service.ts';
 
 export const rabbitmqConsumer = async () => {
   const connection = await amqp.connect(config.rabbitMQ.url!);

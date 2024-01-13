@@ -1,5 +1,6 @@
 import * as amqp from 'amqplib';
 import { injectable } from 'inversify';
+
 import config from '../config/config.ts';
 
 @injectable()
