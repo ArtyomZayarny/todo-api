@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { Container } from 'inversify';
 
+import { S3Service } from './aws/s3/S3.service.ts';
 import TYPES from './constant/types.ts';
 import { AuthGuard } from './middleware/auth.guard.ts';
 import { isAdmin } from './middleware/role.guard.ts';
@@ -17,6 +18,7 @@ APIContainer.bind<TodoService>(TYPES.TodoService).to(TodoService);
 APIContainer.bind<AuthService>(TYPES.AuthService).to(AuthService);
 APIContainer.bind<EmailService>(TYPES.EmailService).to(EmailService);
 APIContainer.bind<RabbitMQService>(TYPES.RabbitMQService).to(RabbitMQService);
+APIContainer.bind<S3Service>(TYPES.S3Service).to(S3Service);
 APIContainer.bind<RedisService>(TYPES.RedisService)
   .to(RedisService)
   .inSingletonScope();

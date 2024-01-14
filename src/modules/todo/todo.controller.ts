@@ -1,5 +1,6 @@
+import { unlink } from 'node:fs/promises';
+
 import { NextFunction, Request, Response } from 'express';
-import fs from 'fs';
 import { inject } from 'inversify';
 import {
   controller,
@@ -8,22 +9,21 @@ import {
   httpPatch,
   httpPost,
 } from 'inversify-express-utils';
-import util from 'util';
 
-import { uploadToS3 } from '../../aws/s3/index.ts';
+import { S3Service } from '../../aws/s3/S3.service.ts';
 import TYPES from '../../constant/types.ts';
 import { AuthGuard } from '../../middleware/auth.guard.ts';
 import { isAdmin } from '../../middleware/role.guard.ts';
 import { uploadPhoto } from '../../middleware/uploadPhoto.ts';
 import { RedisService } from '../../redis/redis.service.ts';
 import { TodoService } from './todo.service.ts';
-const unlinkFile = util.promisify(fs.unlink);
 
 @controller('/api/v1/todos', AuthGuard())
 export class TodoController {
   constructor(
     @inject(TYPES.TodoService) private todoService: TodoService,
     @inject(TYPES.RedisService) private redisService: RedisService,
+    @inject(TYPES.S3Service) private s3Service: S3Service,
   ) {}
   //Get user's todos
   @httpGet('/user')
@@ -59,9 +59,9 @@ export class TodoController {
     let file;
     if (req.file) {
       //@ts-ignore
-      file = await uploadToS3(req.file);
+      file = await this.s3Service.uploadImage(req.file);
       //@ts-ignore
-      await unlinkFile(req.file.path);
+      await unlink(req.file.path);
     }
     return this.todoService.create({
       ...req.body,
