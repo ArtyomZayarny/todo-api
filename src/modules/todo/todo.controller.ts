@@ -15,25 +15,28 @@ import TYPES from '../../constant/types.ts';
 import { AuthGuard } from '../../middleware/auth.guard.ts';
 import { isAdmin } from '../../middleware/role.guard.ts';
 import { uploadPhoto } from '../../middleware/uploadPhoto.ts';
-import { redisCheckName, redisSet } from '../../redis/index.ts';
+import { RedisService } from '../../redis/redis.service.ts';
 import { TodoService } from './todo.service.ts';
 const unlinkFile = util.promisify(fs.unlink);
 
 @controller('/api/v1/todos', AuthGuard())
 export class TodoController {
-  constructor(@inject(TYPES.TodoService) private todoService: TodoService) {}
+  constructor(
+    @inject(TYPES.TodoService) private todoService: TodoService,
+    @inject(TYPES.RedisService) private redisService: RedisService,
+  ) {}
   //Get user's todos
   @httpGet('/user')
   public async userTodos(req: Request) {
     //@ts-ignore
     const { _id } = req.user;
-    let userTodos = await redisCheckName('userTodos');
+    let userTodos = await this.redisService.getName(`${_id}`);
 
     if (!!userTodos) {
       return JSON.parse(userTodos);
     } else {
       const result = await this.todoService.filterTodo({ userId: _id });
-      await redisSet('userTodos', JSON.stringify(result));
+      await this.redisService.setData(`${_id}`, JSON.stringify(result));
       return result;
     }
   }

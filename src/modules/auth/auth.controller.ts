@@ -8,7 +8,6 @@ import {
   queryParam,
   response,
 } from 'inversify-express-utils';
-import * as path from 'path';
 
 import TYPES from '../../constant/types.ts';
 import { RabbitMQService } from '../../rabbitmq/rabbitmq.service.ts';
