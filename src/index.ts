@@ -12,15 +12,15 @@ import morgan from 'morgan';
 // @ts-ignore
 import xss from 'xss-clean';
 
-import { bucketName, s3 } from './aws/s3/index.ts';
 import config from './config/config.ts';
 import { APIContainer } from './inversify.config.ts';
 import { errorHandler } from './modules/errors/errorHandler.ts';
 import { rabbitmqConsumer } from './rabbitmq/rabbitmq.consumer.ts';
+import { S3Service } from './aws/s3/S3.service.ts';
 
 let server: any;
 rabbitmqConsumer();
-
+const s3 = new S3Service();
 mongoose.connect(config.mongoose.url!).then(() => {
   console.log('DB connection successful!');
 
@@ -42,8 +42,7 @@ mongoose.connect(config.mongoose.url!).then(() => {
     app.get('/images/:key', async (req: Request, res: any) => {
       //@ts-ignore
       const { key } = req.params;
-      const params: any = { Bucket: bucketName, Key: key };
-      s3.getObject(params, function (err, data) {
+      await s3.getImage(key, (err: any, data: any) => {
         res.writeHead(200, { 'Content-Type': 'image/jpeg' });
         res.write(data.Body, 'binary');
         res.end(null, 'binary');

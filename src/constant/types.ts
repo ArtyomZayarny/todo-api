@@ -5,6 +5,7 @@ const TYPES = {
   EmailService: Symbol.for('EmailService'),
   RabbitMQService: Symbol.for('RabbitMQService'),
   RedisService: Symbol.for('RedisService'),
+  S3Service: Symbol.for('S3Service'),
 };
 
 export default TYPES;
