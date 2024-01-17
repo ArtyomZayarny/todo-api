@@ -15,12 +15,13 @@ import xss from 'xss-clean';
 import config from './config/config.ts';
 import { APIContainer } from './inversify.config.ts';
 import { errorHandler } from './modules/errors/errorHandler.ts';
-import { rabbitmqConsumer } from './rabbitmq/rabbitmq.consumer.ts';
 import { S3Service } from './aws/s3/S3.service.ts';
+import { SqsListener } from './aws/sqs/sqs.consumer.ts';
 
 let server: any;
-rabbitmqConsumer();
+SqsListener.start();
 const s3 = new S3Service();
+
 mongoose.connect(config.mongoose.url!).then(() => {
   console.log('DB connection successful!');
 
