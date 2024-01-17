@@ -31,16 +31,16 @@ const config = {
   },
   clientUrl: process.env.CLIENT_URL,
   aws: {
+    region: process.env.AWS_BUCKET_REGION,
+    sqs: {
+      region: process.env.AWS_SQS_REGION,
+      url: process.env.AWS_SQS_QUEUE_URL,
+    },
     s3: {
       bucketName: process.env.AWS_BUCKET_NAME,
-      region: process.env.AWS_BUCKET_REGION,
       accessKeyId: process.env.AWS_ACCESS_KEY,
       secretAccessKey: process.env.AWS_SECRET_KEY,
     },
-  },
-  rabbitMQ: {
-    url: process.env.RABBITMQ_URL,
-    queueName: process.env.RABBITMQ_QUEUE_NAME,
   },
 };
 

@@ -3,9 +3,9 @@ const TYPES = {
   TodoService: Symbol.for('TodoService'),
   AuthService: Symbol.for('AuthService'),
   EmailService: Symbol.for('EmailService'),
-  RabbitMQService: Symbol.for('RabbitMQService'),
   RedisService: Symbol.for('RedisService'),
   S3Service: Symbol.for('S3Service'),
+  SqsService: Symbol.for('SqsService'),
 };
 
 export default TYPES;

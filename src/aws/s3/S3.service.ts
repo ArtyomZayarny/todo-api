@@ -4,9 +4,8 @@ import { injectable } from 'inversify';
 
 import config from '../../config/config.ts';
 
-export const { bucketName, region, accessKeyId, secretAccessKey } =
-  config.aws.s3;
-
+const { bucketName, accessKeyId, secretAccessKey } = config.aws.s3;
+const region = config.aws.region!;
 @injectable()
 export class S3Service {
   private s3: any;

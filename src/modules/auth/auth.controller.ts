@@ -9,8 +9,8 @@ import {
   response,
 } from 'inversify-express-utils';
 
+import { SqsService } from '../../aws/sqs/sqs.service.ts';
 import TYPES from '../../constant/types.ts';
-import { RabbitMQService } from '../../rabbitmq/rabbitmq.service.ts';
 import { signToken } from '../../utils/signToken.ts';
 import { AppError } from '../errors/AppError.ts';
 import { UserService } from '../user/user.service.ts';
@@ -21,7 +21,7 @@ export class AuthController {
   constructor(
     @inject(TYPES.AuthService) private authService: AuthService,
     @inject(TYPES.UserService) private userService: UserService,
-    @inject(TYPES.RabbitMQService) private rabbitMQService: RabbitMQService,
+    @inject(TYPES.SqsService) private sqsService: SqsService,
   ) {}
 
   @httpPost('/register')
@@ -36,7 +36,7 @@ export class AuthController {
       await user.createEmailConfirmationToken(user);
 
     try {
-      this.rabbitMQService.sendEmailConfiramtion(
+      this.sqsService.sendEmailConfirmation(
         user.email,
         emailConfirmationToken!,
         user.name,
